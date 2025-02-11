@@ -12,18 +12,6 @@ if (!isset($_SESSION['username'])) {
 
 $userId = $_SESSION['user_id'];
 
-$current_date = date("Y-m-d");
-
-$sql_update = "UPDATE task
-               SET status = CASE
-                   WHEN deadline < '$current_date' AND status != 'Finished' THEN 'Not Cleared'
-                   ELSE status
-               END
-               WHERE user_id = ?";
-$stmt_update = $conn->prepare($sql_update);
-$stmt_update->bind_param("i", $userId);
-$stmt_update->execute();
-
 
 $sql = "SELECT * FROM task WHERE user_id = ? ORDER BY 
     CASE 
