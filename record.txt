@@ -1,0 +1,6 @@
+pemantapan tanggal 25 january
+- ganttchart selesai
+- session login dan register page(done)
+- membuat halaman utama untuk menampilkan data task dan subtask (menampilkan done tapi kemungkinan kode akan banyak berubah)
+- membuat sistem cheking (bug di chekbox)
+- 

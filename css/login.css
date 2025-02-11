@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            background: rgba(236, 29, 255, 0.476);
+        }
+        a{
+            text-decoration: none;
+            color: #ffffff;
+            font-family: 'Audiowide', sans-serif;
+        }
+        a:hover{
+            color: #4677ff;
+        }
+        .background-video {
+            display: flex;
+            position: fixed;
+            top: -10vh;
+            left: -10vw;
+            width: 120vw;
+            height: 120vh;
+            z-index: -1000;
+            pointer-events: none;
+        }
+        .container{
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.295);
+            padding: 1.875rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 2rem rgba(255, 255, 255, 0.6);
+            width: 18.75rem;
+            height: fit-content;
+            text-align: center;
+        }
+        h2 {
+            font-family: 'Audiowide', sans-serif;
+            margin-bottom: 3rem;
+            color: #ffff;
+        }
+        h5 {
+            font-family: 'Audiowide', sans-serif;
+            color: #ffff;
+        }
+        .reg{
+            margin: 1rem;
+        }
+        .form-group {
+            position: relative;
+            margin: 1rem 0;
+        }
+        input[type="text"], input[type="password"]{
+            width: 90%;
+            padding: 1rem;
+            border: 0.1rem solid #ddd;
+            border-radius: 1.25rem;
+            font-size: 1rem;
+        }
+        .password-container {
+            position: relative;
+        }
+        .password-container i {
+            position: absolute;
+            right: 0.625rem;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 1.25rem;
+            color: #888;
+        }
+        button {
+            font-family: 'Audiowide', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.25rem;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4677ff;
+            color: rgb(255, 255, 255);
+        }
+        .content {
+            position: relative;
+            z-index: 1; 
+            color: white; 
+            text-align: center;
+            padding-top: 20%;
+        }
+        .alert{
+            position: absolute;
+            bottom: 1rem;
+            color: #ffffff;
+            text-shadow: 2px 2px 0px rgb(255, 255, 255);
+        }
