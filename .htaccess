@@ -1,0 +1,25 @@
+# Allow iframe embedding (HATI-HATI, bisa menyebabkan clickjacking)
+Header always unset X-Frame-Options
+
+# Enable CORS (Cross-Origin Resource Sharing)
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type"
+
+# Custom Error Page for 404
+ErrorDocument 404 /404.php
+
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^/?$ index.php [L]
+RewriteRule ^Priority$ priority.php [L]
+RewriteRule ^Deadlined$ deadlined.php [L]
+RewriteRule ^On-Progress$ onProgress.php [L]
+RewriteRule ^Finished$ finished.php [L]
+RewriteRule ^Late-Complete$ lateComplete.php [L]
+RewriteRule ^Not-Cleared$ notCleared.php [L]
+
+RewriteRule ^yourtask&([a-zA-Z0-9]+)$ yourTask.php?task_id=$1 [L]
+RewriteRule ^EditT-([a-zA-Z0-9]+)$ editTask.php?subtask_id=$1 [L]
+RewriteRule ^EditS-([a-zA-Z0-9]+)$ editSubtask.php?subtask_id=$1 [L]
