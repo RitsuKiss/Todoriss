@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Redirect sesuai role
         if ($user['role'] == 'admin') {
-            header('Location: ./adminpanel/'); // Admin dashboard
+            header('Location: ./adminpanel/');
         } else {
-            header('Location: index.php'); // User dashboard
+            header('Location: /');
         }
         exit();
     } else {
