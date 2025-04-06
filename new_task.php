@@ -1,77 +1,57 @@
 <?php
-include 'config/koneksi.php';
 session_start();
+require_once "config/koneksi.php"; // Sesuaikan dengan lokasi koneksi database
 
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
-
+$userId = $_SESSION['user_id'];
 $errorMessage = "";
 $successMessage = "";
 
+// Fungsi untuk menghasilkan ID unik dengan panjang 15 karakter
+function generateUniqueId($conn)
+{
+    $unique = false;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $length = 15;
 
+    while (!$unique) {
+        // Generate random string
+        $uniqueId = '';
+        for ($i = 0; $i < $length; $i++) {
+            $uniqueId .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
 
+        // Periksa apakah ID sudah ada di database
+        $checkQuery = "SELECT task_id FROM task WHERE task_id = '$uniqueId'";
+        $result = $conn->query($checkQuery);
+
+        if ($result->num_rows == 0) {
+            $unique = true;
+        }
+    }
+
+    return $uniqueId;
+}
+
+// Proses form jika metode POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $judul = $_POST['judul'];
     $deskripsi = $_POST['deskripsi'];
     $priority = $_POST['priority'];
     $deadline = $_POST['deadline'];
-    $userId = $_SESSION['user_id'];
 
-    $sql = "INSERT INTO task (user_id, judul, deskripsi, priority, deadline) VALUES (?, ?, ?, ?, ?)";
+    // Generate ID unik untuk task
+    $taskId = generateUniqueId($conn);
+
+    // Query untuk menyisipkan data task
+    $sql = "INSERT INTO task (task_id, user_id, judul, deskripsi, priority, deadline) VALUES (?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("issss", $userId, $judul, $deskripsi, $priority, $deadline);
+    $stmt->bind_param("sissss", $taskId, $userId, $judul, $deskripsi, $priority, $deadline);
 
     if ($stmt->execute()) {
-        $successMessage = "Task berhasil ditambahkan!";
-    } else {
-        $errorMessage = "Terjadi kesalahan: " . $conn->error;
+        $_SESSION['success_message'] = "Task berhasil ditambahkan!";
+        header("Location: index.php"); // Redirect ke index.php
+        exit();
     }
 }
+    
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Tambah Task</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Tambah Task</h2>
-        <?php if ($errorMessage): ?>
-            <p style="color: red;"><?php echo $errorMessage; ?></p>
-        <?php endif; ?>
-        <?php if ($successMessage): ?>
-            <p style="color: green;"><?php echo $successMessage; ?></p>
-        <?php endif; ?>
-        <form method="post">
-            <input type="text" name="judul" placeholder="Judul Task" required>
-            <textarea name="deskripsi" placeholder="Deskripsi Task" required></textarea>
-            <select name="priority" required>
-                <option value="High">🔴 High</option>
-                <option value="Medium" selected>🟡 Medium</option>
-                <option value="Low">🟢 Low</option>
-            </select>
-            <label>Deadline:</label>
-            <input type="date" name="deadline" required min="<?php echo date('Y-m-d'); ?>">
-            <button type="submit">Tambah Task</button>
-        </form>
-    </div>
-</body>
-
-<script>
-    document.querySelector('form').addEventListener('submit', function(event) {
-        var deadline = document.querySelector('input[name="deadline"]').value;
-        var currentDate = new Date().toISOString().split('T')[0];
-
-        if (deadline < currentDate) {
-            alert("Tanggal deadline tidak boleh lebih kecil dari hari ini.");
-            event.preventDefault();
-        }
-    });
-</script>
-
-</html>

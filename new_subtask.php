@@ -8,54 +8,68 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Periksa apakah id_task ada di URL
+$userId = $_SESSION['user_id'];
+
+// Periksa apakah task_id ada di URL
 if (!isset($_GET['task_id'])) {
-    die("ID Task tidak ditemukan.");
+    die("Error: ID Task tidak ditemukan.");
 }
 
 $task_id = $_GET['task_id'];
 $errorMessage = "";
 $successMessage = "";
 
+// Fungsi untuk menghasilkan ID unik 15 karakter
+function generateUniqueId($conn) {
+    $unique = false;
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $length = 15;
+
+    while (!$unique) {
+        $uniqueId = '';
+        for ($i = 0; $i < $length; $i++) {
+            $uniqueId .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
+
+        // Periksa apakah ID sudah ada di database
+        $checkQuery = "SELECT subtask_id FROM subtask WHERE subtask_id = ?";
+        $stmt = $conn->prepare($checkQuery);
+        $stmt->bind_param("s", $uniqueId);
+        $stmt->execute();
+        $stmt->store_result();
+
+        if ($stmt->num_rows == 0) {
+            $unique = true;
+        }
+        $stmt->close();
+    }
+
+    return $uniqueId;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $judul = $_POST['judul'];
     $deskripsi = $_POST['deskripsi'];
 
-    // Insert subtask ke database
-    $sql = "INSERT INTO subtask (task_id, judul, deskripsi) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("iss", $task_id, $judul, $deskripsi);
-
-    if ($stmt->execute()) {
-        $successMessage = "Subtask berhasil ditambahkan!";
+    if (empty($judul) || empty($deskripsi)) {
+        $errorMessage = "Judul dan deskripsi harus diisi.";
     } else {
-        $errorMessage = "Terjadi kesalahan: " . $conn->error;
+        // Generate unique ID untuk subtask
+        $subtaskId = generateUniqueId($conn);
+
+        // Insert subtask ke database
+        $sql = "INSERT INTO subtask (subtask_id, task_id, judul, deskripsi) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssss", $subtaskId, $task_id, $judul, $deskripsi);
+
+        if ($stmt->execute()) {
+            // Redirect ke halaman yourtask dengan task_id
+            header("Location: yourtask.php?task_id=" . $task_id);
+            exit();
+        } else {
+            $errorMessage = "Terjadi kesalahan: " . $conn->error;
+        }
+        $stmt->close();
     }
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Subtask</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="container">
-        <h2>Tambah Subtask</h2>
-        <?php if ($errorMessage): ?>
-            <p style="color: red;"> <?php echo $errorMessage; ?> </p>
-        <?php endif; ?>
-        <?php if ($successMessage): ?>
-            <p style="color: green;"> <?php echo $successMessage; ?> </p>
-        <?php endif; ?>
-        <form method="post">
-            <input type="text" name="judul" placeholder="Judul Subtask" required>
-            <textarea name="deskripsi" placeholder="Deskripsi Subtask" required></textarea>
-            <button type="submit">Tambah Subtask</button>
-        </form>
-    </div>
-</body>
-</html>

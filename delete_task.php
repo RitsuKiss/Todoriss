@@ -10,19 +10,18 @@ if (!isset($_SESSION['user_id'])) {
 if (isset($_GET['task_id'])) {
     $task_id = $_GET['task_id'];
 
-    // Hapus semua subtask yang terkait
     $deleteSubtasks = "DELETE FROM subtask WHERE task_id = ?";
     $stmt1 = $conn->prepare($deleteSubtasks);
     $stmt1->bind_param("i", $task_id);
     $stmt1->execute();
 
-    // Hapus task dari database
+
     $deleteTask = "DELETE FROM task WHERE task_id = ?";
     $stmt2 = $conn->prepare($deleteTask);
     $stmt2->bind_param("i", $task_id);
 
     if ($stmt2->execute()) {
-        header("Location: index.php"); // Redirect setelah berhasil
+        header("Location: index.php");
         exit();
     } else {
         echo "Gagal menghapus task: " . $conn->error;

@@ -7,9 +7,7 @@ $errorMessage = "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $input = $_POST['email'];
     $password = $_POST['password'];
-    $passwordHash = md5($password); // Tetap menggunakan MD5 untuk prototipe
-
-    // Cek login berdasarkan username, email, atau ID
+    $passwordHash = md5($password);
     $sql = "SELECT * FROM users WHERE (username='$input' OR email='$input' OR id='$input') AND pass='$passwordHash'";
     $result = $conn->query($sql);
 
@@ -43,13 +41,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/login.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-        <div class="container">
+        <div class="logcontainer">
             <h2>Log In</h2>
             <form method="post" action="">
                 <input type="text" name="email" placeholder="Email/Username/ID" required>
@@ -64,9 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit">Log In</button>
             </form>
         </div>
-        <script>
-                        </script>
 
-    <script src="js/login.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>

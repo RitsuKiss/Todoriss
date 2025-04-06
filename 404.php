@@ -21,8 +21,7 @@ $userId = $_SESSION['user_id'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Halaman Tidak Ditemukan</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -32,7 +31,7 @@ $userId = $_SESSION['user_id'];
     <div class="error">
         <h1>404</h1>
         <p>Oops! Halaman yang kamu cari tidak ditemukan.</p>
-        <a href="index.php">Kembali ke Beranda</a>
+        <a href="/">Kembali ke Beranda</a>
     </div>
 </body>
 

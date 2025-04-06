@@ -7,19 +7,35 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-if (isset($_GET['subtask_id'])) {
-    $subtask_id = $_GET['subtask_id'];
+$task_id = isset($_GET['task_id']) ? $_GET['task_id'] : null;
+$subtask_id = isset($_GET['subtask_id']) ? $_GET['subtask_id'] : null;
 
-    // Hapus subtask berdasarkan ID
+if ($subtask_id) {
+    // Jika task_id tidak tersedia di URL, cari berdasarkan subtask_id
+    if (!$task_id) {
+        $query = "SELECT task_id FROM subtask WHERE subtask_id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("s", $subtask_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $task_id = $row['task_id'] ?? null;
+        $stmt->close();
+    }
+
+    // Hapus subtask
     $deleteSubtask = "DELETE FROM subtask WHERE subtask_id = ?";
     $stmt = $conn->prepare($deleteSubtask);
-    $stmt->bind_param("i", $subtask_id);
+    $stmt->bind_param("s", $subtask_id);
 
     if ($stmt->execute()) {
-        header("Location: index.php"); // Redirect setelah berhasil
+        $stmt->close();
+        $conn->close();
+        $redirect_url = "yourtask&" . ($task_id ? "$task_id" : "");
+        header("Location: $redirect_url");
         exit();
     } else {
-        echo "Gagal menghapus subtask: " . $conn->error;
+        echo "Gagal menghapus subtask: " . $stmt->error;
     }
 } else {
     echo "Subtask ID tidak ditemukan!";

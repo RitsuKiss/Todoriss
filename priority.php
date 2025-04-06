@@ -28,12 +28,10 @@ $taskResult = $stmt->get_result();
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To Do Riss</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -43,9 +41,9 @@ $taskResult = $stmt->get_result();
     </div>
     <div class="newTask">
             <h1>To Do Riss</h1>
-            <a href="new_task.php">
+            <button onclick="openPopup('popup1')">
             <h2> + </h2>
-            </a>
+            </button>
         </div>
     <div class="yourTask">
         <div class="kosong"></div>
@@ -55,11 +53,11 @@ $taskResult = $stmt->get_result();
             $today = time();
             $diff = ($deadline - $today) / (60 * 60 * 24);
 
-            if ($diff < -3) {
+            if ($diff < -1) {
                 continue;
             }
             ?>
-            <a href="<?php echo 'yourTask.php?task_id=' . $task['task_id']; ?>">
+            <a href="<?php echo 'yourtask&' . $task['task_id']; ?>">
                 <div class="task">
                     <div class="content">
                         <div class="judul">
@@ -95,7 +93,10 @@ $taskResult = $stmt->get_result();
 
     </div>
 
-
+    <div id="popup1" class="modal">
+        <?php include 'newTform.php'; ?>
+    </div>
+    
 </body>
 
 </html>

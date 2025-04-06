@@ -1,0 +1,14 @@
+# Allow iframe embedding (HATI-HATI, bisa menyebabkan clickjacking)
+Header always unset X-Frame-Options
+
+# Enable CORS (Cross-Origin Resource Sharing)
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+Header set Access-Control-Allow-Headers "Content-Type"
+
+# Custom Error Page for 404
+ErrorDocument 404 /404.php
+
+RewriteEngine On
+RewriteRule ^/?$ index.php [L]
+

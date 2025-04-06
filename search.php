@@ -35,7 +35,6 @@ if (isset($_GET['Search'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pencarian Tugas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -56,7 +55,7 @@ if (isset($_GET['Search'])) {
         <div class="kosong"></div>
         <?php if (!empty($tasks)): ?>
             <?php foreach ($tasks as $task): ?>
-                <a href="<?php echo 'yourTask.php?task_id=' . $task['task_id']; ?>">
+                <a href="<?php echo 'yourtask&' . $task['task_id']; ?>">
                     <div class="task">
                         <div class="content">
                             <div class="judul">

@@ -6,7 +6,7 @@ if (isset($_GET['task_id'])) {
 
     $query = "SELECT status FROM task WHERE task_id = ?";
     $stmt = $conn->prepare($query);
-    $stmt->bind_param("i", $task_id);
+    $stmt->bind_param("s", $task_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $task = $result->fetch_assoc();
