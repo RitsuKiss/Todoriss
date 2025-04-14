@@ -78,11 +78,14 @@ $stmtp->close();
             </div>
         </div>
         <div class="conbutt">
-            <button class="editProf" onclick="edprofile()">Edit Profile</button>
+            <button class="editProf" onclick="openPopup('popup4')">Edit Profile</button>
             <button class="logout"  onclick="logout()">Log Out</button>
-            <button class="setting" onclick="setting()"><img src="asset/Search.png" alt=""></button>
+            <button class="setting" onclick="Search()"><img src="asset/Search.png" alt=""></button>
         </div>
     </div>
+    <div id="popup4" class="modal">
+        <?php include 'editprofile.php'; ?>
+    </div>
 </body>
-
+<script src="js/script.js"></script>
 </html>
