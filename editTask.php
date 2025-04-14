@@ -64,7 +64,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </form>
     </div>
-
+    <script>
+        document.getElementById('deadline').min = "<?= htmlspecialchars($task['deadline']) ?>";
+    </script>
 </body>
 
 </html>

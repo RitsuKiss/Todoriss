@@ -12,7 +12,7 @@ if (!isset($_SESSION['username'])) {
 
 $userId = $_SESSION['user_id'];
 
-$sql = "SELECT * FROM task WHERE user_id = ? AND status = 'Finished';";
+$sql = "SELECT * FROM task WHERE user_id = ? ORDER BY created_at DESC;";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $userId);
 $stmt->execute();
@@ -35,12 +35,11 @@ $taskResult = $stmt->get_result();
         <?php include 'sidebar.php'; ?>
     </div>
     <div class="newTask">
-            <h1>To Do Riss</h1>
-            <button onclick="openPopup('popup1')">
+        <h1>To Do Riss</h1>
+        <button onclick="openPopup('popup1')">
             <h2> + </h2>
-            </button>
-        </div>
-
+        </button>
+    </div>
     <div class="yourTask">
         <div class="kosong"></div>
         <?php while ($task = $taskResult->fetch_assoc()): ?>
@@ -67,10 +66,13 @@ $taskResult = $stmt->get_result();
         <?php endwhile; ?>
 
     </div>
+
     <div id="popup1" class="modal">
         <?php include 'newTform.php'; ?>
     </div>
 
 
+
 </body>
+
 </html>

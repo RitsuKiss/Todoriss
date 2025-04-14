@@ -49,7 +49,7 @@ $stmtp->close();
     <div class="main">
         <div class="contop">
             <div class="topleft">
-                <img src="uploads/f<?php echo $userId; ?>/<?php echo $_SESSION['photo']; ?>" alt="Your Photo">
+                <img id="userpic" src="uploads/f<?php echo $userId; ?>/<?php echo $_SESSION['photo']; ?>">
             </div>
 
             <div class="topright">

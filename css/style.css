@@ -657,7 +657,7 @@ select,
     bottom: 1rem;
     width: 20rem;
 }
-.delsub{
+.edsub, .delsub{
     color: #fff;
 text-align: center;
 background-color: #bf52c8;

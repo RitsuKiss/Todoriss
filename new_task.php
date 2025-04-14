@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         $_SESSION['success_message'] = "Task berhasil ditambahkan!";
-        header("Location: index.php"); // Redirect ke index.php
+        header("Location: /"); // Redirect ke index.php
         exit();
     }
 }

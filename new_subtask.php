@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             // Redirect ke halaman yourtask dengan task_id
-            header("Location: yourtask.php?task_id=" . $task_id);
+            header("Location: yourtask&" . $task_id);
             exit();
         } else {
             $errorMessage = "Terjadi kesalahan: " . $conn->error;

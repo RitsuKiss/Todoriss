@@ -7,7 +7,7 @@ function edprofile() {
 }
 function setting() {
     window.location.href = 'setting.php';
-}
+} 
 if (/Mobi|Android/i.test(navigator.userAgent)) {
     alert("Silakan aktifkan mode desktop di browser Anda untuk pengalaman terbaik.");
   }
@@ -44,15 +44,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
         sessionStorage.setItem("musikWaktu", musik.currentTime);
     }, 1000);
 
-    document.querySelector('form').addEventListener('submit', function(event) {
-        var deadline = document.querySelector('input[name="deadline"]').value;
-        var currentDate = new Date().toISOString().split('T')[0];
 
-        if (deadline < currentDate) {
-            alert("Tanggal deadline tidak boleh lebih kecil dari hari ini.");
-            event.preventDefault();
-        }
-    });
 
     function openPopup(id) {
         document.getElementById(id).style.display = "block";
@@ -80,3 +72,8 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
             toggleIcon.classList.add('fa-eye');
         }
     }
+
+    const img = document.getElementById("userpic");
+  img.onerror = function() {
+    img.src = "../asset/default.png";
+  };

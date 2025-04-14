@@ -15,9 +15,9 @@ $stmt_update->execute();
 ?>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <div class="sidebar">
-<a href="dashboard.php">
+<a href="dashboard">
     <div class="profile <?php echo ($currentPage == 'dashboard.php') ? 'active' : ''; ?>">
-        <img src="uploads/f<?php echo $userId; ?>/<?php echo $_SESSION['photo']; ?>" alt="Your Photo">
+        <img id="userpic" src="uploads/f<?php echo $userId; ?>/<?php echo $_SESSION['photo']; ?>">
         <label>
             <h1><?php echo $_SESSION['username']; ?></h1>
             <p>
